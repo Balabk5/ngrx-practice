@@ -1,0 +1,68 @@
+<form [formGroup]="taskForm">
+<div nz-row class="create-task-cont" nzJustify="center" [nzGutter]="[0, 24]">
+  <!-- Title Section -->
+    <div nz-col nzSpan="14">
+      <h1 nz-typography>Create tasks</h1>
+    </div>
+
+    <!-- ID and Name Fields -->
+    <div nz-col nzSpan="14">
+      <div nz-row nzJustify="start">
+        <div nz-col nzSpan="2">
+          <input nz-input formControlName="Id" placeholder="Id" type="number" />
+        </div>
+        <div nz-col nzSpan="21" nzOffset="1">
+          <input nz-input  formControlName="title" placeholder="Name" type="text" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Field -->
+    <div nz-col nzSpan="14">
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <textarea
+            nz-input
+            formControlName="description"
+            placeholder="Description"
+            [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <!-- Segments for status and priority -->
+
+    <div nz-col nzSpan="14">
+      <div nz-row>
+        <div nz-col nzSpan="9">
+          <label for="status-segmented" class="segmented-label">Status: </label>
+          <nz-segmented
+            id="status-segmented"
+            [nzOptions]="statusOptions"
+            formControlName="status"
+
+            (nzValueChange)="handleTaskStatus($event)"
+          ></nz-segmented>
+        </div>
+        <div nz-col nzSpan="9">
+          <label for="priority-segmented" class="segmented-label"
+            >Priority:
+          </label>
+          <nz-segmented
+            id="priority-segmented"
+            [nzOptions]="priorityOptions"
+            formControlName="priority"
+
+            (nzValueChange)="handleTaskPriority($event)"
+          ></nz-segmented>
+        </div>
+      </div>
+    </div>
+    <!-- Submit btn -->
+    <div nz-col nzSpan="14">
+      <div nz-row>
+        <button nz-button nzType="primary" (click)="createTask()">Create</button>
+      </div>
+    </div>
+</div>
+</form>
