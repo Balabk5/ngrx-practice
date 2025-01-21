@@ -1,12 +1,31 @@
 import { createReducer, on } from '@ngrx/store';
-import { addTask, deleteTask } from './tasks.action';
+import { addTask, deleteTask, loadTasks, loadTasksFailure, loadTasksSuccess } from './tasks.action';
+import { createTask } from '../../services/tasks/task.model';
 
 
-export const initialTaskState: { id: string; title: string; status: string }[] = [];
+// export const initialTaskState: { id: string; title: string; status: string }[] = [];
+
+export interface TaskState {
+    tasks: createTask[];
+    loading: boolean;
+    error: string | null;
+  }
+  
+  export const initialTaskState: TaskState = {
+    tasks: [],
+    loading: false,
+    error: null,
+  };
+  
 
 
 export const taskReducer = createReducer(
     initialTaskState,
-    on(addTask, (state, { id, title, status }) => [...state, { id, title, status }]), // Add the task to the state
-    on(deleteTask, (state, )=> state),
+    on(loadTasksSuccess, (state) => ({ ...state, loading: true, error: null })),
+    on(loadTasksFailure, (state, { error }) => ({
+        ...state,
+        loading: false,
+        error,
+      }))
 )
+

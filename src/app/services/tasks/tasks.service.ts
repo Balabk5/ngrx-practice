@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios, { Axios } from 'axios';
 import { createTask } from './task.model';
+import { from, map } from 'rxjs';
 
 
 @Injectable({
@@ -23,6 +24,12 @@ export class TasksService {
 
   postCreatedTask(task: createTask){
     return this.axiosInstance.post('create-task', task)
+  }
+  getAllTask(){
+    
+    return from(
+      this.axiosInstance.get('get-tasks')
+    ).pipe(map((response) => response.data)); // Extract data here
   }
 
 }

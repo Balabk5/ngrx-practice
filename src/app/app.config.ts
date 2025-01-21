@@ -8,9 +8,13 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { counterReducer } from './state/counter.reducer';
 import { taskReducer } from './state/tasks/tasks.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { TaskEffects } from './state/tasks/task.effect';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),   provideStore({ count: counterReducer, task: taskReducer },),
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),  
+     provideStore({ count: counterReducer, task: taskReducer },),
+     provideEffects(TaskEffects),
     provideStoreDevtools(),
     provideAnimations()]
 };

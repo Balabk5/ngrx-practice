@@ -13,6 +13,7 @@ import {
   taskPriority,
   taskStatus,
 } from '../../services/tasks/task.model';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 @Component({
   selector: 'app-create-tasks',
@@ -25,6 +26,7 @@ import {
     FormsModule,
     NzSegmentedModule,
     ReactiveFormsModule,
+    NzDatePickerModule
   ],
   templateUrl: './create-tasks.component.html',
   styleUrl: './create-tasks.component.scss',
@@ -42,12 +44,19 @@ export class CreateTasksComponent {
     status: new FormControl(taskStatus.PENDING, [Validators.required]),
     priority: new FormControl(taskPriority.LOW, [Validators.required]),
   });
+
+
+
+
   handleTaskStatus(e: number): void {
     const statusValue = Object.values(taskStatus)[e]; // Get the value by index
 
     // Set the value to the form control
     this.taskForm.get('status')?.setValue(statusValue);
   }
+
+
+  
   handleTaskPriority(e: number): void {
     const priorityValue = Object.values(taskPriority)[e]; // Get the value by index
 
