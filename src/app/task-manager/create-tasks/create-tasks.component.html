@@ -41,7 +41,7 @@
             [nzOptions]="statusOptions"
             formControlName="status"
 
-            (nzValueChange)="handleTaskStatus($event)"
+            
           ></nz-segmented>
         </div>
         <div nz-col nzSpan="9">
@@ -53,7 +53,7 @@
             [nzOptions]="priorityOptions"
             formControlName="priority"
 
-            (nzValueChange)="handleTaskPriority($event)"
+            
           ></nz-segmented>
         </div>
       </div>
@@ -61,7 +61,7 @@
     <!-- Submit btn -->
     <div nz-col nzSpan="14">
       <div nz-row>
-        <button nz-button nzType="primary" (click)="createTask()">Create</button>
+        <button nz-button nzType="primary" >Create</button>
       </div>
     </div>
 </div>

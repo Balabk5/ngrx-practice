@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { TasksService } from '../../services/tasks/tasks.service';
 import {
   loadTasks,
@@ -16,12 +16,14 @@ export class TaskEffects {
   loadTasks$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadTasks),
-      mergeMap(() =>
-        this.taskService.getAllTask().pipe(
-          map((tasks) => loadTasksSuccess({ tasks })),
-          catchError((error) => of(loadTasksFailure({ error: error.message })))
-        )
-      )
+      tap(() => console.log('loadTasks effect triggered')),
+      // mergeMap(() =>
+      //   this.taskService.getAllTask().pipe(
+      //     map((tasks) => loadTasksSuccess({ tasks })),
+      //     catchError((error) => of(loadTasksFailure({ error: error.message })))
+      //   )
+      // )
     )
   );
+  
 }

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { addTask, deleteTask, loadTasks, loadTasksFailure, loadTasksSuccess } from './tasks.action';
+import {  loadTasks, loadTasksFailure, loadTasksSuccess } from './tasks.action';
 import { createTask } from '../../services/tasks/task.model';
 
 
@@ -19,13 +19,19 @@ export interface TaskState {
   
 
 
-export const taskReducer = createReducer(
+  export const taskReducer = createReducer(
     initialTaskState,
-    on(loadTasksSuccess, (state) => ({ ...state, loading: true, error: null })),
+    on(loadTasks, (state) => ({ ...state, loading: true, error: null })), // ✅ Start loading here
+    on(loadTasksSuccess, (state, { tasks }) => ({
+      ...state,
+      loading: false, // ✅ Mark loading as false
+      tasks,
+      error: null
+    })),
     on(loadTasksFailure, (state, { error }) => ({
-        ...state,
-        loading: false,
-        error,
-      }))
-)
-
+      ...state,
+      loading: false, // ✅ Mark loading as false
+      error
+    }))
+  );
+  

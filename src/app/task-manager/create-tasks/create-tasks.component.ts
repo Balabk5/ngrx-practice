@@ -14,6 +14,10 @@ import {
   taskStatus,
 } from '../../services/tasks/task.model';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { Store } from '@ngrx/store';
+import { loadTasks } from '../../state/tasks/tasks.action';
+import { TaskState } from '../../state/tasks/tasks.reducer';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-tasks',
@@ -34,8 +38,17 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 export class CreateTasksComponent {
   statusOptions: string[] = Object.values(taskStatus);
   priorityOptions: string[] = Object.values(taskPriority);
+  tasks$: Observable<createTask[]>;
+  loading$: Observable<boolean>;
+  error$: Observable<string | null>;
 
-  constructor(private task: TasksService) {}
+  constructor(private store: Store<{ tasks: TaskState }>, private task: TasksService) {
+    this.tasks$ = store.select(state => state.tasks.tasks);
+    this.loading$ = store.select(state => state.tasks.loading);
+    this.error$ = store.select(state => state.tasks.error);
+  }
+
+  
 
   taskForm = new FormGroup({
     Id: new FormControl(0),
@@ -46,43 +59,45 @@ export class CreateTasksComponent {
   });
 
 
+ngOnInit(){
+  this.store.dispatch(loadTasks());
+}
 
+  // handleTaskStatus(e: number): void {
+  //   const statusValue = Object.values(taskStatus)[e]; // Get the value by index
 
-  handleTaskStatus(e: number): void {
-    const statusValue = Object.values(taskStatus)[e]; // Get the value by index
-
-    // Set the value to the form control
-    this.taskForm.get('status')?.setValue(statusValue);
-  }
+  //   // Set the value to the form control
+  //   this.taskForm.get('status')?.setValue(statusValue);
+  // }
 
 
   
-  handleTaskPriority(e: number): void {
-    const priorityValue = Object.values(taskPriority)[e]; // Get the value by index
+  // handleTaskPriority(e: number): void {
+  //   const priorityValue = Object.values(taskPriority)[e]; // Get the value by index
 
-    // Set the value to the form control
-    this.taskForm.get('priority')?.setValue(priorityValue);
-  }
+  //   // Set the value to the form control
+  //   this.taskForm.get('priority')?.setValue(priorityValue);
+  // }
 
-  createTask() {
-    const formValues = this.taskForm.value;
+  // createTask() {
+  //   const formValues = this.taskForm.value;
 
-    // if (this.taskForm.valid) {
-    const createTaskData: createTask = {
-      Id: this.taskForm.get('Id')?.value ?? 0,
-      title: this.taskForm.get('title')?.value ?? '',
-      description: this.taskForm.get('description')?.value ?? '', // Assign the FormControl instance
-      status:
-        (this.taskForm.get('status')?.value as taskStatus) ??
-        taskStatus.PENDING,
-      priority:
-        (this.taskForm.get('priority')?.value as taskPriority) ??
-        taskPriority.LOW,
-    };
-    // Ensure the form data is sanitized and complete
-    this.task.postCreatedTask(createTaskData);
-    console.log(formValues);
-    console.log(createTaskData);
-    // }
-  }
+  //   // if (this.taskForm.valid) {
+  //   const createTaskData: createTask = {
+  //     Id: this.taskForm.get('Id')?.value ?? 0,
+  //     title: this.taskForm.get('title')?.value ?? '',
+  //     description: this.taskForm.get('description')?.value ?? '', // Assign the FormControl instance
+  //     status:
+  //       (this.taskForm.get('status')?.value as taskStatus) ??
+  //       taskStatus.PENDING,
+  //     priority:
+  //       (this.taskForm.get('priority')?.value as taskPriority) ??
+  //       taskPriority.LOW,
+  //   };
+  //   // Ensure the form data is sanitized and complete
+  //   this.task.postCreatedTask(createTaskData);
+  //   console.log(formValues);
+  //   console.log(createTaskData);
+  //   // }
+  // }
 }

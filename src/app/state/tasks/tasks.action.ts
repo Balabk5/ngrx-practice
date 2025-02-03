@@ -2,11 +2,11 @@ import { createAction, props } from '@ngrx/store';
 import { createTask } from '../../services/tasks/task.model';
 
 
-export const addTask = createAction(
-    '[Task] Add Task',
-    props<{ id: string; title: string; status: string }>() 
-  );
-export const deleteTask = createAction('[task] deleteTask')
+// export const addTask = createAction(
+//     '[Task] Add Task',
+//     props<{ id: string; title: string; status: string }>() 
+//   );
+// export const deleteTask = createAction('[task] deleteTask')
 
 export const loadTasks = createAction('[Task] Load Tasks');
 
